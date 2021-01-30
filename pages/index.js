@@ -11,7 +11,7 @@ export default function Index() {
         <meta name="theme-color" content="#fe7f6c" />
         <title>Carmine ti vuole bene? | carminemivuolebene.site</title>
       </Head>
-      <Background />
+      <Background fps={15} msg="Molto" heartsNumber={50} />
     </>
   );
 }
