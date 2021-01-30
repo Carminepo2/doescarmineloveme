@@ -61,32 +61,29 @@ const Background = ({ fps, msg, heartsNumber }) => {
         min: 4,
         max: 9,
       };
-      fontSize = "200pt";
+      fontSize = 200;
     } else if (window.innerWidth > 650) {
       heartSize = {
         min: 4,
         max: 8,
       };
-      fontSize = "160pt";
+      fontSize = 160;
     } else if (window.innerWidth > 450) {
       heartSize = {
         min: 2,
         max: 4,
       };
-      fontSize = "130pt";
+      fontSize = 130;
     } else {
       heartSize = {
         min: 1,
         max: 3,
       };
-      fontSize = "85pt";
+      fontSize = 85;
     }
 
     const canvas = canvasRef.current;
     const canvas2 = canvasWrite.current;
-
-    canvas.height = window.innerHeight;
-    canvas.width = window.innerWidth;
 
     const c = canvas.getContext("2d");
     const c2 = canvas2.getContext("2d");
@@ -99,13 +96,19 @@ const Background = ({ fps, msg, heartsNumber }) => {
     canvas2.setAttribute("height", style_height * dpi);
     canvas2.setAttribute("width", style_width * dpi);
 
+    let style_height2 = +getComputedStyle(canvas).getPropertyValue("height").slice(0, -2);
+    let style_width2 = +getComputedStyle(canvas).getPropertyValue("width").slice(0, -2);
+
+    canvas.setAttribute("height", style_height2 * dpi);
+    canvas.setAttribute("width", style_width2 * dpi);
+
     c2.beginPath();
     c2.fillStyle = "white";
     c2.rect(0, 0, canvas.width, canvas.height);
     c2.fill();
     c2.textAlign = "center";
     c2.textBaseline = "middle";
-    c2.font = "900 " + fontSize + " Arial";
+    c2.font = `900 ${fontSize * dpi}pt Arial`;
     c2.globalCompositeOperation = "xor";
     c2.beginPath();
     c2.fillText(msg, canvas.width / 2, canvas.height / 2);
@@ -115,7 +118,7 @@ const Background = ({ fps, msg, heartsNumber }) => {
     let hearts = [];
     for (let i = 0; i < heartsNumber; i++) {
       // CREAZIONE CUORI
-      const random_size = getRandomIntInclusive(heartSize.min, heartSize.max);
+      const random_size = getRandomIntInclusive(heartSize.min * dpi, heartSize.max * dpi);
       const random_color = COLOR_PALETTE[getRandomIntInclusive(0, COLOR_PALETTE.length - 1)];
       const random_x = getRandomIntInclusive(0 + random_size, canvas.width - random_size);
       const random_y = getRandomIntInclusive(0 + random_size, canvas.height - random_size);
@@ -158,6 +161,10 @@ const Background = ({ fps, msg, heartsNumber }) => {
         }
         #write {
           z-index: 99;
+        }
+        canvas {
+          width: 100%;
+          height: 100%;
         }
       `}</style>
     </>
