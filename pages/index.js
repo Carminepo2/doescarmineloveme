@@ -10,7 +10,7 @@ export default function Index() {
         <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
         <script
           dangerouslySetInnerHTML={{
-            __html: `WebFont.load({google: {families: ["Roboto:Black 900 italic"]}})`,
+            __html: `WebFont.load({google: {families: [Roboto:wght@900]}})`,
           }}
         />
         <meta name="theme-color" content="#fe7f6c" />
