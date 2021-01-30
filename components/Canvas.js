@@ -87,10 +87,17 @@ const Background = ({ fps, msg, heartsNumber }) => {
 
     canvas.height = window.innerHeight;
     canvas.width = window.innerWidth;
-    canvas2.height = window.innerHeight;
-    canvas2.width = window.innerWidth;
+
     const c = canvas.getContext("2d");
     const c2 = canvas2.getContext("2d");
+
+    let dpi = window.devicePixelRatio;
+
+    let style_height = +getComputedStyle(canvas2).getPropertyValue("height").slice(0, -2);
+    let style_width = +getComputedStyle(canvas2).getPropertyValue("width").slice(0, -2);
+
+    canvas2.setAttribute("height", style_height * dpi);
+    canvas2.setAttribute("width", style_width * dpi);
 
     c2.beginPath();
     c2.fillStyle = "white";
