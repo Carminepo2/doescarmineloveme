@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import getCordinatesOnHeartShape from "../public/utils";
+import { getCordinatesOnHeartShape, getRandomArbitrary, getRandomIntInclusive } from "../public/utils";
 
 class Heart {
   constructor(x, y, opacity, vy, size, color) {
@@ -32,24 +32,20 @@ class Heart {
 
 function drawBackground(c, width, height) {
   c.globalAlpha = 1;
-  c.fillStyle = "#fe7f6c";
+  c.fillStyle = "#fff";
   c.fillRect(0, 0, width, height);
 }
 
-function writeText(c) {
-  c.font = "25px Arial";
-  c.textAlign = "center";
-  c.textBaseline = "middle";
-  c.fillText("CENSORED", 0, 0);
-}
-
-const Background = (props) => {
+const Background = ({ answerElem }) => {
   const canvasRef = useRef(null);
+  const answerRef = useRef(null);
+
   const [windowSize, setWindowSize] = useState({ width: null, height: null });
   const COLOR_PALETTE = ["#fe7f6c", "#fec1b2", "#fbc8d6", "#f0a1a5", "#f70424"];
 
   const getWindowSize = () => {
-    setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+    const answerElemSizes = answerRef.current.getBoundingClientRect();
+    setWindowSize({ width: answerElemSizes.width, height: answerElemSizes.height });
   };
   useEffect(() => {
     window.addEventListener("resize", getWindowSize);
@@ -60,20 +56,43 @@ const Background = (props) => {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    canvas.height = window.innerHeight;
-    canvas.width = window.innerWidth;
+    const answerElemSizes = answerRef.current.getBoundingClientRect();
+    canvas.height = answerElemSizes.height;
+    canvas.width = answerElemSizes.width;
     const c = canvas.getContext("2d");
 
     let animationFrameId;
     let hearts = [];
-    for (let i = 0; i < 10; i++) {
+    let heartSize = {};
+    for (let i = 0; i < 20; i++) {
       // CREAZIONE CUORI
-      const random_color = COLOR_PALETTE[Math.floor(Math.random() * COLOR_PALETTE.length)];
-      const random_x = Math.random() * canvas.width + 100 - 100;
-      const random_y = Math.random() * canvas.height + 100 - 100;
-      const random_opacity = Math.random() - 0.6;
-      const random_vy = Math.random() - 0.5;
-      const random_size = Math.random() * 20 + 20;
+      if (window.innerWidth > 900) {
+        heartSize = {
+          min: 5,
+          max: 10,
+        };
+      } else if (window.innerWidth > 650) {
+        heartSize = {
+          min: 4,
+          max: 8,
+        };
+      } else if (window.innerWidth > 450) {
+        heartSize = {
+          min: 2,
+          max: 6,
+        };
+      } else {
+        heartSize = {
+          min: 2,
+          max: 4,
+        };
+      }
+      const random_size = getRandomIntInclusive(heartSize.min, heartSize.max);
+      const random_color = COLOR_PALETTE[getRandomIntInclusive(0, COLOR_PALETTE.length - 1)];
+      const random_x = getRandomIntInclusive(0 + random_size, canvas.width - random_size);
+      const random_y = getRandomIntInclusive(0 + random_size, canvas.height - random_size);
+      const random_opacity = getRandomArbitrary(0.2, 0.5);
+      const random_vy = getRandomArbitrary(-0.3, 0.3);
       hearts.push(new Heart(random_x, random_y, random_opacity, random_vy, random_size, random_color));
       //
     }
@@ -84,6 +103,7 @@ const Background = (props) => {
         heart.draw(c);
         heart.update(canvas.height);
       });
+      answerRef.current.style.backgroundImage = `url(${canvas.toDataURL()})`;
 
       animationFrameId = window.requestAnimationFrame(render);
     };
@@ -96,38 +116,37 @@ const Background = (props) => {
 
   return (
     <>
-      <canvas ref={canvasRef} {...props} />
-
-      <svg width="100%" height="100%">
-        <mask id="mask">
-          <rect width="100%" height="100%" fill="#fe7f6c" />
-          <text x="5%" y="70%">
-            Sì
-          </text>
-        </mask>
-        <rect width="100%" height="100%" fillOpacity="1" mask="url(#mask)" />
-      </svg>
+      <canvas ref={canvasRef} />
+      <main>
+        <h1 ref={answerRef}>
+          Sì<span>,&nbsp; tanto</span>
+        </h1>
+      </main>
 
       <style jsx>{`
-        canvas,
-        svg {
-          position: absolute;
-          left: 0;
-          top: 0;
-          z-index: -1;
+        main {
+          height: 100vh;
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
-        svg {
-          z-index: 1;
+        canvas {
+          display: none;
         }
-        text {
-          font-size: 60vh;
+        h1 {
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          font-size: 50vw;
           font-weight: 900;
-          font-family: Arial;
+          display: inline-block;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
         }
-        @media (max-width: 490px) {
-          text {
-            font-size: 45vh;
-          }
+        h1 span {
+          font-size: 5vw;
+          line-spacing: 20px;
         }
       `}</style>
     </>
