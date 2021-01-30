@@ -1,17 +1,18 @@
 import Background from "./../components/Canvas";
 import Head from "next/head";
 export default function Index() {
-  WebFont.load({
-    google: {
-      families: ["Roboto:900"],
-    },
-  });
   return (
     <>
       <Head>
         <meta charset="utf-8" />
         <meta name="description" content="Qui si scopre se carmine (il reale, non Carmine-Bot) ti vuole bene. Se sei qui, molto probabilmente sì." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `WebFont.load({google: {families: ["Roboto:Black 900 italic"]}})`,
+          }}
+        />
         <meta name="theme-color" content="#fe7f6c" />
         <title>Carmine ti vuole bene? | carminemivuolebene.site</title>
         <link rel="preconnect" href="https://fonts.gstatic.com" />
