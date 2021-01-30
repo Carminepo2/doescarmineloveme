@@ -65,21 +65,21 @@ const Background = ({ fps, msg, heartsNumber }) => {
     } else if (window.innerWidth > 650) {
       heartSize = {
         min: 5,
-        max: 9,
+        max: 8,
       };
       fontSize = "160pt";
     } else if (window.innerWidth > 450) {
       heartSize = {
         min: 3,
-        max: 7,
+        max: 5,
       };
       fontSize = "130pt";
     } else {
       heartSize = {
-        min: 3,
-        max: 5,
+        min: 1,
+        max: 3,
       };
-      fontSize = "80pt";
+      fontSize = "85pt";
     }
 
     const canvas = canvasRef.current;
@@ -101,6 +101,7 @@ const Background = ({ fps, msg, heartsNumber }) => {
     c2.font = "900 " + fontSize + " Arial";
     c2.globalCompositeOperation = "xor";
     c2.beginPath();
+    c2.scale(2, 2);
     c2.fillText(msg, canvas.width / 2, canvas.height / 2);
     c2.fill();
 
