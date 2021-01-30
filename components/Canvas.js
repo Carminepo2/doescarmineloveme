@@ -113,10 +113,8 @@ const Background = ({ fps, msg, heartsNumber }) => {
       const random_x = getRandomIntInclusive(0 + random_size, canvas.width - random_size);
       const random_y = getRandomIntInclusive(0 + random_size, canvas.height - random_size);
       const random_opacity = getRandomArbitrary(0.2, 0.5);
-      const random_vy = getRandomArbitrary(0.3, 0.8);
-      if (Math.random() >= 0.5) {
-        random_vy = -random_vy;
-      }
+      const random_vy = getRandomArbitrary(-0.6, 0.6);
+
       hearts.push(new Heart(random_x, random_y, random_opacity, random_vy, random_size, random_color));
       //
     }
@@ -141,6 +139,8 @@ const Background = ({ fps, msg, heartsNumber }) => {
 
   return (
     <>
+      <div style="font-family: Roboto; display: none;">.</div>
+
       <canvas id="backgroud" ref={canvasRef} />
       <canvas id="write" ref={canvasWrite} />
 
