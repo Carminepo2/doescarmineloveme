@@ -103,7 +103,7 @@ const Background = ({ answerElem }) => {
         heart.draw(c);
         heart.update(canvas.height);
       });
-      answerRef.current.style.backgroundImage = `url(${canvas.toDataURL()})`;
+      answerRef.current.style.backgroundImage = `url(${canvas.toDataURL()}) 0 0 / cover`;
 
       animationFrameId = window.requestAnimationFrame(render);
     };
@@ -138,7 +138,7 @@ const Background = ({ answerElem }) => {
           -webkit-text-fill-color: transparent;
           font-size: 50vw;
           font-weight: 900;
-          display: inline;
+          display: inline-block;
           -webkit-user-select: none;
           -moz-user-select: none;
           -ms-user-select: none;
