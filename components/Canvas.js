@@ -138,7 +138,7 @@ const Background = ({ answerElem }) => {
           -webkit-text-fill-color: transparent;
           font-size: 50vw;
           font-weight: 900;
-          display: inline-block;
+          display: inline;
           -webkit-user-select: none;
           -moz-user-select: none;
           -ms-user-select: none;
