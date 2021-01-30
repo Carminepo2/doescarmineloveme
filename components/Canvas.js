@@ -126,7 +126,7 @@ const Background = (props) => {
         }
         @media (max-width: 490px) {
           text {
-            font-size: 50vh;
+            font-size: 45vh;
           }
         }
       `}</style>
