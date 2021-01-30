@@ -68,23 +68,23 @@ const Background = ({ answerElem }) => {
       // CREAZIONE CUORI
       if (window.innerWidth > 900) {
         heartSize = {
-          min: 5,
-          max: 10,
+          min: 6,
+          max: 11,
         };
       } else if (window.innerWidth > 650) {
         heartSize = {
-          min: 4,
-          max: 8,
+          min: 5,
+          max: 9,
         };
       } else if (window.innerWidth > 450) {
         heartSize = {
-          min: 2,
-          max: 6,
+          min: 3,
+          max: 7,
         };
       } else {
         heartSize = {
-          min: 2,
-          max: 4,
+          min: 3,
+          max: 5,
         };
       }
       const random_size = getRandomIntInclusive(heartSize.min, heartSize.max);
@@ -92,7 +92,7 @@ const Background = ({ answerElem }) => {
       const random_x = getRandomIntInclusive(0 + random_size, canvas.width - random_size);
       const random_y = getRandomIntInclusive(0 + random_size, canvas.height - random_size);
       const random_opacity = getRandomArbitrary(0.2, 0.5);
-      const random_vy = getRandomArbitrary(-0.3, 0.3);
+      const random_vy = getRandomArbitrary(-0.5, 0.5);
       hearts.push(new Heart(random_x, random_y, random_opacity, random_vy, random_size, random_color));
       //
     }
