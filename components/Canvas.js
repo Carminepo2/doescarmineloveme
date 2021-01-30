@@ -134,6 +134,8 @@ const Background = ({ answerElem }) => {
           display: none;
         }
         h1 {
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
           font-size: 50vw;
           font-weight: 900;
           display: inline-block;
