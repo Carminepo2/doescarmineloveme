@@ -101,7 +101,6 @@ const Background = ({ fps, msg, heartsNumber }) => {
     c2.font = "900 " + fontSize + " Arial";
     c2.globalCompositeOperation = "xor";
     c2.beginPath();
-    c2.scale(2, 2);
     c2.fillText(msg, canvas.width / 2, canvas.height / 2);
     c2.fill();
 
