@@ -42,9 +42,14 @@ const Background = ({ fps, msg, heartsNumber }) => {
 
   const [windowSize, setWindowSize] = useState({ width: null, height: null });
   const COLOR_PALETTE = ["#fe7f6c", "#fec1b2", "#fbc8d6", "#f0a1a5", "#f70424"];
+  let resizeTimer;
+  let animationFrameId;
 
   const getWindowSize = () => {
-    setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+    }, 250);
   };
   useEffect(() => {
     window.addEventListener("resize", getWindowSize);
@@ -90,17 +95,13 @@ const Background = ({ fps, msg, heartsNumber }) => {
 
     let dpi = window.devicePixelRatio;
 
-    let style_height = +getComputedStyle(canvas2).getPropertyValue("height").slice(0, -2);
-    let style_width = +getComputedStyle(canvas2).getPropertyValue("width").slice(0, -2);
+    let style_height = +getComputedStyle(canvas).getPropertyValue("height").slice(0, -2);
+    let style_width = +getComputedStyle(canvas).getPropertyValue("width").slice(0, -2);
 
+    canvas.setAttribute("height", style_height * dpi);
+    canvas.setAttribute("width", style_width * dpi);
     canvas2.setAttribute("height", style_height * dpi);
     canvas2.setAttribute("width", style_width * dpi);
-
-    let style_height2 = +getComputedStyle(canvas).getPropertyValue("height").slice(0, -2);
-    let style_width2 = +getComputedStyle(canvas).getPropertyValue("width").slice(0, -2);
-
-    canvas.setAttribute("height", style_height2 * dpi);
-    canvas.setAttribute("width", style_width2 * dpi);
 
     c2.beginPath();
     c2.fillStyle = "white";
@@ -114,7 +115,6 @@ const Background = ({ fps, msg, heartsNumber }) => {
     c2.fillText(msg, canvas.width / 2, canvas.height / 2);
     c2.fill();
 
-    let animationFrameId;
     let hearts = [];
     for (let i = 0; i < heartsNumber; i++) {
       // CREAZIONE CUORI
@@ -123,7 +123,7 @@ const Background = ({ fps, msg, heartsNumber }) => {
       const random_x = getRandomIntInclusive(0 + random_size, canvas.width - random_size);
       const random_y = getRandomIntInclusive(0 + random_size, canvas.height - random_size);
       const random_opacity = getRandomArbitrary(0.2, 0.5);
-      const random_vy = getRandomArbitrary(-0.6, 0.6);
+      const random_vy = getRandomArbitrary(-0.6, 0.6) * dpi;
 
       hearts.push(new Heart(random_x, random_y, random_opacity, random_vy, random_size, random_color));
       //
@@ -136,6 +136,7 @@ const Background = ({ fps, msg, heartsNumber }) => {
         heart.update(canvas.height);
       });
 
+      console.count();
       animationFrameId = setTimeout(() => {
         window.requestAnimationFrame(render);
       }, 1000 / fps);
@@ -163,8 +164,8 @@ const Background = ({ fps, msg, heartsNumber }) => {
           z-index: 99;
         }
         canvas {
-          width: 100%;
-          height: 100%;
+          width: 100vw;
+          height: 100vh;
         }
       `}</style>
     </>
