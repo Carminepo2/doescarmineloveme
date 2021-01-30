@@ -11,7 +11,7 @@ export default function Index() {
         <title>Carmine ti vuole bene? | carminemivuolebene.site</title>
       </Head>
       <div style={{ fontFamily: "Roboto" }}></div>
-      <Background fps={15} msg="Molto" heartsNumber={50} />
+      <Background fps={15} msg="Molto" heartsNumber={80} />
     </>
   );
 }

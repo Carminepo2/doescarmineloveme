@@ -58,20 +58,20 @@ const Background = ({ fps, msg, heartsNumber }) => {
     let fontSize;
     if (window.innerWidth > 900) {
       heartSize = {
-        min: 6,
-        max: 11,
+        min: 4,
+        max: 9,
       };
       fontSize = "200pt";
     } else if (window.innerWidth > 650) {
       heartSize = {
-        min: 5,
+        min: 4,
         max: 8,
       };
       fontSize = "160pt";
     } else if (window.innerWidth > 450) {
       heartSize = {
-        min: 3,
-        max: 5,
+        min: 2,
+        max: 4,
       };
       fontSize = "130pt";
     } else {
