@@ -101,7 +101,7 @@ const Background = (props) => {
       <svg width="100%" height="100%">
         <mask id="mask">
           <rect width="100%" height="100%" fill="#fe7f6c" />
-          <text x="5%" y="75%" fontSize="60vh">
+          <text x="5%" y="70%">
             Sì
           </text>
         </mask>
@@ -120,8 +120,14 @@ const Background = (props) => {
           z-index: 1;
         }
         text {
+          font-size: 60vh;
           font-weight: 900;
           font-family: Arial;
+        }
+        @media (max-width: 490px) {
+          text {
+            font-size: 50vh;
+          }
         }
       `}</style>
     </>
