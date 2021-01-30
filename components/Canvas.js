@@ -139,8 +139,6 @@ const Background = ({ fps, msg, heartsNumber }) => {
 
   return (
     <>
-      <div style="font-family: Roboto; display: none;">.</div>
-
       <canvas id="backgroud" ref={canvasRef} />
       <canvas id="write" ref={canvasWrite} />
 
