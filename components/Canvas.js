@@ -98,7 +98,7 @@ const Background = ({ fps, msg, heartsNumber }) => {
     c2.fill();
     c2.textAlign = "center";
     c2.textBaseline = "middle";
-    c2.font = "900 " + fontSize + " Roboto";
+    c2.font = "900 " + fontSize + " Arial";
     c2.globalCompositeOperation = "xor";
     c2.beginPath();
     c2.fillText(msg, canvas.width / 2, canvas.height / 2);
