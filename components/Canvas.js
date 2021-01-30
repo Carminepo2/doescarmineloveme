@@ -101,7 +101,7 @@ const Background = (props) => {
       <svg width="100%" height="100%">
         <mask id="mask">
           <rect width="100%" height="100%" fill="#fe7f6c" />
-          <text x="5%" y="95%" fontSize="70vw">
+          <text x="5%" y="75%" fontSize="60vh">
             Sì
           </text>
         </mask>
