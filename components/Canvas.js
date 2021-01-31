@@ -61,30 +61,50 @@ const Background = ({ fps, msg, heartsNumber }) => {
   useEffect(() => {
     let heartSize = {};
     let fontSize;
-    if (window.innerWidth > 900) {
+    if (window.innerWidth > 1300) {
+      heartSize = {
+        min: 5,
+        max: 12,
+      };
+      fontSize = 300;
+
+    }
+    else if (window.innerWidth > 1050) {
       heartSize = {
         min: 4,
-        max: 9,
+        max: 11,
+      };
+      fontSize = 250;
+    } else if (window.innerWidth > 900) {
+      heartSize = {
+        min: 4,
+        max: 11,
       };
       fontSize = 200;
-    } else if (window.innerWidth > 650) {
+    } else if (window.innerWidth > 720) {
       heartSize = {
         min: 4,
-        max: 8,
+        max: 10,
       };
-      fontSize = 160;
-    } else if (window.innerWidth > 450) {
+      fontSize = 170;
+    } else if (window.innerWidth > 550) {
       heartSize = {
         min: 2,
-        max: 4,
+        max: 6,
       };
       fontSize = 130;
+    } else if (window.innerWidth > 450) {
+      heartSize = {
+        min: 1,
+        max: 5,
+      };
+      fontSize = 100;
     } else {
       heartSize = {
         min: 1,
-        max: 3,
+        max: 5,
       };
-      fontSize = 85;
+      fontSize = 65;
     }
 
     const canvas = canvasRef.current;
@@ -111,6 +131,8 @@ const Background = ({ fps, msg, heartsNumber }) => {
     c2.textBaseline = "middle";
     c2.font = `900 ${fontSize * dpi}pt Arial`;
     c2.globalCompositeOperation = "xor";
+    c2.shadowColor="red";
+    c2.shadowBlur=100;
     c2.beginPath();
     c2.fillText(msg, canvas.width / 2, canvas.height / 2);
     c2.fill();
@@ -122,7 +144,7 @@ const Background = ({ fps, msg, heartsNumber }) => {
       const random_color = COLOR_PALETTE[getRandomIntInclusive(0, COLOR_PALETTE.length - 1)];
       const random_x = getRandomIntInclusive(0 + random_size, canvas.width - random_size);
       const random_y = getRandomIntInclusive(0 + random_size, canvas.height - random_size);
-      const random_opacity = getRandomArbitrary(0.2, 0.5);
+      const random_opacity = getRandomArbitrary(0.4, 0.6);
       const random_vy = getRandomArbitrary(-0.6, 0.6) * dpi;
 
       hearts.push(new Heart(random_x, random_y, random_opacity, random_vy, random_size, random_color));
@@ -136,7 +158,6 @@ const Background = ({ fps, msg, heartsNumber }) => {
         heart.update(canvas.height);
       });
 
-      console.count();
       animationFrameId = setTimeout(() => {
         window.requestAnimationFrame(render);
       }, 1000 / fps);
@@ -150,23 +171,66 @@ const Background = ({ fps, msg, heartsNumber }) => {
 
   return (
     <>
-      <canvas id="backgroud" ref={canvasRef} />
-      <canvas id="write" ref={canvasWrite} />
+    <main>
+      <div id="container">
+          <canvas  id="background" ref={canvasRef} />
+          <canvas id="write" ref={canvasWrite} />
+      </div>
+    </main>
+      
+      
 
       <style jsx>{`
-        #write,
-        #background {
-          position: absolute;
-          left: 0;
-          top: 0;
+        #container {
+          position: relative;
+          height: 80vh;
+          width: 80vw;
         }
+        main {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+        }
+
+        #background {
+          width: 100%;
+          height: 100%;            
+          position: absolute !important;
+          top: 0;
+          left: 0;
+          z-index: -1;
+        }
+        
         #write {
           z-index: 99;
         }
         canvas {
-          width: 100vw;
-          height: 100vh;
+          height: 100%;
+          width: 100%;
         }
+        @media screen and (min-width: 2501px) {
+          #container {
+            width: 60vw;
+          }
+        }
+        @media screen and (min-width: 2051px) {
+          #container {
+            width: 70vw;
+          }
+        }
+        @media screen and (max-width: 1741px) {
+          #container {
+            width: 100vw;
+          }
+        }
+
+        @media screen and (max-height: 500px) {
+          #container {
+            height: 100vh;
+          }
+        }
+
       `}</style>
     </>
   );
