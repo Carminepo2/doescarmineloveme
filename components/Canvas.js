@@ -1,40 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
-import { getCordinatesOnHeartShape, getRandomArbitrary, getRandomIntInclusive } from "../public/utils";
+import { getRandomArbitrary, getRandomIntInclusive, getResponsiveCanvas, drawBackground } from "../public/utils";
+import Heart from "./../public/Heart"
 
-class Heart {
-  constructor(x, y, opacity, vy, size, color) {
-    this.x = x;
-    this.y = y;
-    this.opacity = opacity;
-    this.vy = vy;
-    this.size = size;
-    this.color = color;
-  }
-
-  draw(c) {
-    c.beginPath();
-    c.globalAlpha = this.opacity;
-    var hc = getCordinatesOnHeartShape(this.x, this.y, this.size);
-    for (var i = 0; i < hc.length; i++) {
-      c.lineTo(hc[i].x, hc[i].y);
-    }
-    c.fillStyle = this.color;
-    c.fill();
-  }
-
-  update(c) {
-    if (this.y >= c - 40 || this.y < 0) {
-      this.vy = -this.vy;
-    }
-    this.y += this.vy;
-  }
-}
-
-function drawBackground(c, width, height) {
-  c.globalAlpha = 1;
-  c.fillStyle = "#fff";
-  c.fillRect(0, 0, width, height);
-}
 
 const Background = ({ fps, msg, heartsNumber }) => {
   const canvasRef = useRef(null);
@@ -51,6 +18,7 @@ const Background = ({ fps, msg, heartsNumber }) => {
       setWindowSize({ width: window.innerWidth, height: window.innerHeight });
     }, 250);
   };
+
   useEffect(() => {
     window.addEventListener("resize", getWindowSize);
     return () => {
@@ -59,53 +27,8 @@ const Background = ({ fps, msg, heartsNumber }) => {
   }, []);
 
   useEffect(() => {
-    let heartSize = {};
-    let fontSize;
-    if (window.innerWidth > 1300) {
-      heartSize = {
-        min: 5,
-        max: 12,
-      };
-      fontSize = 300;
-
-    }
-    else if (window.innerWidth > 1050) {
-      heartSize = {
-        min: 4,
-        max: 11,
-      };
-      fontSize = 250;
-    } else if (window.innerWidth > 900) {
-      heartSize = {
-        min: 4,
-        max: 11,
-      };
-      fontSize = 200;
-    } else if (window.innerWidth > 720) {
-      heartSize = {
-        min: 4,
-        max: 10,
-      };
-      fontSize = 170;
-    } else if (window.innerWidth > 550) {
-      heartSize = {
-        min: 2,
-        max: 6,
-      };
-      fontSize = 130;
-    } else if (window.innerWidth > 450) {
-      heartSize = {
-        min: 1,
-        max: 5,
-      };
-      fontSize = 100;
-    } else {
-      heartSize = {
-        min: 1,
-        max: 5,
-      };
-      fontSize = 65;
-    }
+    
+    const [ heartSize, fontSize ] = getResponsiveCanvas(window.innerWidth)
 
     const canvas = canvasRef.current;
     const canvas2 = canvasWrite.current;
@@ -113,6 +36,8 @@ const Background = ({ fps, msg, heartsNumber }) => {
     const c = canvas.getContext("2d");
     const c2 = canvas2.getContext("2d");
 
+
+    // Adapts the canvas to the device pixel ratio
     let dpi = window.devicePixelRatio;
 
     let style_height = +getComputedStyle(canvas).getPropertyValue("height").slice(0, -2);
@@ -123,6 +48,8 @@ const Background = ({ fps, msg, heartsNumber }) => {
     canvas2.setAttribute("height", style_height * dpi);
     canvas2.setAttribute("width", style_width * dpi);
 
+
+    // Writes the message
     c2.beginPath();
     c2.fillStyle = "white";
     c2.rect(0, 0, canvas.width, canvas.height);
@@ -137,9 +64,10 @@ const Background = ({ fps, msg, heartsNumber }) => {
     c2.fillText(msg, canvas.width / 2, canvas.height / 2);
     c2.fill();
 
+
+    // Spawn heart based on heartsNumber passed prop
     let hearts = [];
     for (let i = 0; i < heartsNumber; i++) {
-      // CREAZIONE CUORI
       const random_size = getRandomIntInclusive(heartSize.min * dpi, heartSize.max * dpi);
       const random_color = COLOR_PALETTE[getRandomIntInclusive(0, COLOR_PALETTE.length - 1)];
       const random_x = getRandomIntInclusive(0 + random_size, canvas.width - random_size);
@@ -148,8 +76,9 @@ const Background = ({ fps, msg, heartsNumber }) => {
       const random_vy = getRandomArbitrary(-0.6, 0.6) * dpi;
 
       hearts.push(new Heart(random_x, random_y, random_opacity, random_vy, random_size, random_color));
-      //
     }
+
+
     const render = () => {
       drawBackground(c, canvas.width, canvas.height);
 
